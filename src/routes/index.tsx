@@ -3,6 +3,13 @@ import resumeAsset from "@/assets/resume.pdf.asset.json";
 import { SiteNav } from "@/components/SiteNav";
 import { Reveal } from "@/components/Reveal";
 import { TypedLine } from "@/components/TypedLine";
+import { CyberGrid } from "@/components/CyberGrid";
+import { InteractiveTerminal } from "@/components/InteractiveTerminal";
+import { RadarScan } from "@/components/RadarScan";
+import { CyberMap } from "@/components/CyberMap";
+import { MitreMatrix } from "@/components/MitreMatrix";
+import { CyberCursor } from "@/components/CyberCursor";
+import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -259,15 +266,24 @@ const stats = [
 const capabilities = [
   {
     title: "Detect",
-    body: "Sentinel analytics rules, KQL hunting queries and tuned alerting that cut noise without losing signal.",
+    icon: "◎",
+    badge: "SIEM · KQL · MITRE",
+    body: "Architect and tune analytics rules across Microsoft Sentinel with hypothesis-driven KQL hunting queries. Map detections to MITRE ATT&CK tactics, reduce alert fatigue via dynamic threshold calibration, and achieve sub-5-minute mean-time-to-detect (MTTD) across Windows, Linux, identity and network log sources.",
+    metrics: ["92% alert coverage rate", "KQL rule authoring", "Sub-5min MTTD", "MITRE-mapped detections"],
   },
   {
     title: "Respond",
-    body: "Structured triage of phishing, brute-force and malware incidents through containment and closure.",
+    icon: "⬡",
+    badge: "IR · EDR · SOAR",
+    body: "Drive structured incident lifecycle management from initial triage to root cause analysis and post-incident review. Execute endpoint isolation, credential resets, and phishing campaign containment using Bitdefender EDR and Logic Apps SOAR playbooks. Deliver evidence-backed closure reports with NIST SP 800-61 alignment.",
+    metrics: ["Full lifecycle IR", "Endpoint containment", "SOAR playbooks", "NIST 800-61 aligned"],
   },
   {
     title: "Harden",
-    body: "Continuous vulnerability assessment and web app pentesting mapped to CVSS-prioritised remediation.",
+    icon: "◈",
+    badge: "VAPT · CVE · OWASP",
+    body: "Conduct authenticated OWASP Top 10 web application assessments and CVSS v3.1-scored vulnerability scanning with Burp Suite Pro and Nessus. Deliver prioritised remediation reports with reproducible PoCs, exploit validation, and developer-ready fix guidance aligned to business risk exposure.",
+    metrics: ["OWASP Top 10 testing", "CVSS v3.1 scoring", "Burp Suite Pro", "Validated PoC delivery"],
   },
 ];
 
@@ -291,8 +307,10 @@ function SectionHeading({ index, title }: { index: string; title: string }) {
 function Portfolio() {
   return (
     <>
+      <CyberCursor />
       <SiteNav />
-      <main className="min-h-screen">
+      <CyberGrid />
+      <main className="min-h-screen relative z-10">
         {/* Hero */}
         <section className="hero-glow scanlines border-b border-border">
           <div className="mx-auto max-w-5xl px-6 py-20 sm:py-28">
@@ -311,19 +329,32 @@ function Portfolio() {
               />
             </p>
             <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              1 year 5 months of Security Operations Center experience at TVS Electronics across
-              threat detection, incident investigation and vulnerability management. Splunk
-              certified, currently pursuing CEH.
+              Enterprise SOC Tier 1 & 2 Security Analyst with 1 year 5 months of hands-on operations experience at TVS Electronics. Specializing in Microsoft Sentinel SIEM detection architecture, KQL threat hunting heuristics, endpoint containment with Bitdefender EDR, and OWASP-aligned vulnerability assessment/penetration testing (VAPT). Splunk certified and actively validating advanced offensive security strategies via the Certified Ethical Hacker (CEH) track.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href={resumeAsset.url}
-                download="John_Jebas_Resume.pdf"
-                className="glow-ring inline-flex items-center rounded-md bg-primary px-5 py-2.5 font-mono text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              <button
+                onClick={async () => {
+                  try {
+                    const response = await fetch(resumeAsset.url);
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "John_Jebas_Resume.pdf";
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                  } catch {
+                    window.open(resumeAsset.url, "_blank");
+                  }
+                }}
+                className="glow-ring inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 font-mono text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 cursor-pointer"
               >
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                 Download Résumé
-              </a>
+              </button>
               <a
                 href="mailto:johnjebas02@gmail.com"
                 className="inline-flex items-center rounded-md border border-border bg-card px-5 py-2.5 font-mono text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
@@ -346,45 +377,70 @@ function Portfolio() {
 
             {/* Terminal card */}
             <Reveal className="mt-12">
-              <div className="card-panel overflow-hidden">
-                <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
-                  <span className="h-2.5 w-2.5 rounded-full bg-destructive/80" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-accent/80" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-primary/80" />
-                  <span className="ml-2 font-mono text-[11px] text-muted-foreground">
-                    sentinel — brute-force hunt.kql
-                  </span>
-                </div>
-                <pre className="overflow-x-auto px-4 py-4 font-mono text-[11px] leading-relaxed text-muted-foreground sm:text-xs">
-                  <code>{kqlSample}</code>
-                </pre>
-              </div>
+              <InteractiveTerminal />
             </Reveal>
 
             <dl className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {stats.map((s, i) => (
                 <Reveal key={s.label} delay={i * 80}>
-                  <div className="card-panel h-full px-4 py-5 transition-colors hover:border-primary">
+                  <motion.div
+                    whileHover={{ scale: 1.05, y: -4, rotateX: 5, rotateY: 5 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                    className="card-panel h-full px-4 py-5 transition-colors hover:border-primary cursor-default"
+                  >
                     <dt className="font-mono text-xl font-bold text-primary">{s.value}</dt>
                     <dd className="mt-1 text-xs uppercase tracking-wider text-muted-foreground">
                       {s.label}
                     </dd>
-                  </div>
+                  </motion.div>
                 </Reveal>
               ))}
             </dl>
           </div>
         </section>
 
+        {/* Live Security Map & Incidents */}
+        <section className="mx-auto max-w-5xl px-6 py-8 scroll-mt-24">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="mono-label">00</span>
+            <h2 className="font-mono text-lg font-bold tracking-tight">Live Global Threat Intelligence</h2>
+            <span className="h-px flex-1 bg-border" />
+            <span className="font-mono text-[9px] text-primary/60 uppercase tracking-widest animate-pulse">● Real-time Feed</span>
+          </div>
+          <Reveal>
+            <CyberMap />
+          </Reveal>
+        </section>
+
         {/* Capabilities */}
-        <section className="mx-auto max-w-5xl px-6 py-16">
+        <section className="mx-auto max-w-5xl px-6 py-8">
           <div className="grid gap-5 sm:grid-cols-3">
             {capabilities.map((c, i) => (
               <Reveal key={c.title} delay={i * 90}>
-                <div className="card-panel h-full p-6 transition-colors hover:border-accent">
-                  <h3 className="mono-label">{c.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
-                </div>
+                <motion.div
+                  whileHover={{ scale: 1.03, y: -5, rotateY: -2 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="card-panel h-full p-6 hover:border-accent cursor-default group relative overflow-hidden"
+                >
+                  {/* Corner accent */}
+                  <div className="absolute top-0 right-0 h-16 w-16 bg-gradient-to-bl from-accent/10 to-transparent" />
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-2xl text-accent">{c.icon}</span>
+                    <div>
+                      <h3 className="mono-label">{c.title}</h3>
+                      <span className="text-[9px] font-mono tracking-widest text-primary/60 uppercase">{c.badge}</span>
+                    </div>
+                  </div>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{c.body}</p>
+                  <ul className="mt-4 space-y-1.5">
+                    {c.metrics.map((m) => (
+                      <li key={m} className="flex items-center gap-2 font-mono text-[10px] text-foreground/70">
+                        <span className="h-1 w-1 rounded-full bg-primary shrink-0" />
+                        {m}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
               </Reveal>
             ))}
           </div>
@@ -394,64 +450,90 @@ function Portfolio() {
         <section id="experience" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-16">
           <SectionHeading index="01" title="Experience" />
           <Reveal>
-            <div className="card-panel p-6 sm:p-8">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="font-mono text-lg font-semibold">
-                  Cyber Security Analyst — SOC Tier 1&amp;2
-                </h3>
-                <span className="rounded border border-primary/40 px-2 py-1 font-mono text-xs text-primary">
-                  March 2025 – Present
-                </span>
-              </div>
-              <p className="mt-1 text-sm text-muted-foreground">TVS Electronics · Chennai</p>
-              <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-                Operating inside a 24/7 Security Operations Center covering Windows, Linux, identity
-                and network telemetry. Responsibilities span the full defensive lifecycle — detection
-                engineering, alert triage, incident response, endpoint containment, vulnerability
-                management and offensive validation of the organisation's web-facing assets.
-              </p>
-
-              <ul className="mt-8 space-y-6 border-l border-border pl-5 sm:pl-6">
-                {duties.map((d) => (
-                  <li key={d.tag} className="relative">
-                    <span className="absolute -left-[1.44rem] top-2 h-2 w-2 rounded-full bg-primary sm:-left-[1.69rem]" />
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                      <span className="rounded border border-accent/40 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-widest text-accent">
-                        {d.tag}
-                      </span>
-                      <h4 className="font-mono text-sm font-semibold text-foreground">{d.title}</h4>
+            <div className="card-panel overflow-hidden">
+              {/* Header stripe */}
+              <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border-b border-border px-6 py-5 flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <span className="rounded border border-primary/40 bg-primary/10 px-2 py-0.5 font-mono text-[10px] tracking-widest text-primary uppercase">Full-Time</span>
+                    <span className="rounded border border-accent/40 bg-accent/10 px-2 py-0.5 font-mono text-[10px] tracking-widest text-accent uppercase">Active · 1y 5m</span>
+                  </div>
+                  <h3 className="font-mono text-xl font-bold mt-2 text-foreground">
+                    Cyber Security Analyst — SOC Tier 1 &amp; 2
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1 font-mono">TVS Electronics Ltd. · Chennai, Tamil Nadu · March 2025 – Present</p>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {[
+                    { value: "24/7", label: "SOC Coverage" },
+                    { value: "92%", label: "Alert Coverage" },
+                    { value: "<5 min", label: "Avg MTTD" },
+                    { value: "NIST", label: "IR Framework" },
+                  ].map((m) => (
+                    <div key={m.label} className="text-center">
+                      <div className="font-mono text-base font-bold text-primary">{m.value}</div>
+                      <div className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">{m.label}</div>
                     </div>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {d.summary}
-                    </p>
-                    <ul className="mt-3 space-y-2">
-                      {d.points.map((p) => (
-                        <li
-                          key={p}
-                          className="flex gap-2.5 text-sm leading-relaxed text-muted-foreground"
-                        >
-                          <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
-                          <span>{p}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <ul className="mt-3 flex flex-wrap gap-2">
-                      {d.tools.map((t) => (
-                        <li
-                          key={t}
-                          className="rounded border border-border bg-secondary px-2 py-0.5 font-mono text-[11px] text-secondary-foreground"
-                        >
-                          {t}
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-primary/80">
-                      {d.mitre}
-                    </p>
-                  </li>
-                ))}
-              </ul>
+                  ))}
+                </div>
+              </div>
 
+              {/* Description */}
+              <div className="px-6 pt-5 pb-4">
+                <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground">
+                  Embedded within a 24×7 enterprise Security Operations Center at TVS Electronics, operating across the full defensive lifecycle — from real-time SIEM alert triage and KQL-driven threat hunting in Microsoft Sentinel to endpoint isolation via Bitdefender EDR, SOAR playbook automation, CVSS-ranked vulnerability management and OWASP-aligned web application penetration testing. Responsible for both detection engineering and incident response closure reporting.
+                </p>
+              </div>
+
+              {/* Duty grid */}
+              <div className="px-6 pb-6">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {duties.map((d, idx) => (
+                    <Reveal key={d.tag} delay={idx * 55}>
+                      <motion.div
+                        whileHover={{ scale: 1.015, y: -2 }}
+                        transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                        className="relative rounded-lg border border-border bg-secondary/20 p-4 hover:border-primary/50 transition-colors overflow-hidden"
+                      >
+                        {/* Glow corner */}
+                        <div className="absolute top-0 right-0 h-12 w-12 bg-gradient-to-bl from-primary/8 to-transparent" />
+                        {/* Header row */}
+                        <div className="flex items-start justify-between gap-2 mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="rounded border border-accent/40 bg-accent/10 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-widest text-accent shrink-0">
+                              {d.tag}
+                            </span>
+                            <h4 className="font-mono text-xs font-bold text-foreground leading-tight">{d.title}</h4>
+                          </div>
+                        </div>
+                        {/* Summary */}
+                        <p className="text-xs leading-relaxed text-muted-foreground mb-2.5">{d.summary}</p>
+                        {/* Key points */}
+                        <ul className="space-y-1 mb-3">
+                          {d.points.map((p) => (
+                            <li key={p} className="flex gap-2 text-[11px] leading-relaxed text-muted-foreground">
+                              <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" />
+                              <span>{p}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        {/* Tools */}
+                        <ul className="flex flex-wrap gap-1.5 mb-2">
+                          {d.tools.map((t) => (
+                            <li key={t} className="rounded border border-border bg-background/50 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground hover:border-accent/50 hover:text-accent transition-colors">
+                              {t}
+                            </li>
+                          ))}
+                        </ul>
+                        {/* MITRE tag */}
+                        <p className="font-mono text-[9px] uppercase tracking-wider text-primary/70">
+                          ⬡ {d.mitre}
+                        </p>
+                      </motion.div>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
             </div>
           </Reveal>
         </section>
@@ -462,22 +544,42 @@ function Portfolio() {
           <div className="grid gap-5">
             {skills.map((s, i) => (
               <Reveal key={s.group} delay={i * 70}>
-                <div className="card-panel h-full p-6 transition-colors hover:border-primary">
-                  <div className="flex flex-wrap items-baseline justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <span className="rounded border border-primary/40 bg-primary/10 px-2 py-0.5 font-mono text-[10px] tracking-widest text-primary">
-                        {s.tag}
-                      </span>
-                      <h3 className="mono-label">{s.group}</h3>
+                <div className="card-panel h-full p-6 transition-colors hover:border-primary flex flex-col md:flex-row gap-6 items-center md:items-start">
+                  {/* Holographic Dial */}
+                  <div className="relative h-24 w-24 shrink-0 flex items-center justify-center bg-black/10 rounded-full border border-primary/10">
+                    <svg className="absolute inset-0 h-full w-full -rotate-90">
+                      <circle
+                        cx="48"
+                        cy="48"
+                        r="38"
+                        className="stroke-secondary fill-none"
+                        strokeWidth="4"
+                      />
+                      <motion.circle
+                        cx="48"
+                        cy="48"
+                        r="38"
+                        className="stroke-primary fill-none"
+                        strokeWidth="4"
+                        strokeDasharray={2 * Math.PI * 38}
+                        initial={{ strokeDashoffset: 2 * Math.PI * 38 }}
+                        whileInView={{ strokeDashoffset: 2 * Math.PI * 38 - (s.level / 100) * (2 * Math.PI * 38) }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                      />
+                    </svg>
+                    <span className="font-mono text-base font-bold text-primary">{s.level}%</span>
+                  </div>
+
+                  <div className="flex-1 w-full">
+                    <div className="flex flex-wrap items-baseline justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <span className="rounded border border-primary/40 bg-primary/10 px-2 py-0.5 font-mono text-[10px] tracking-widest text-primary">
+                          {s.tag}
+                        </span>
+                        <h3 className="mono-label">{s.group}</h3>
+                      </div>
                     </div>
-                    <span className="font-mono text-xs text-muted-foreground">{s.level}%</span>
-                  </div>
-                  <div className="mt-3 h-1 w-full overflow-hidden rounded bg-secondary">
-                    <div
-                      className="h-full rounded bg-primary transition-[width] duration-1000 ease-out"
-                      style={{ width: `${s.level}%` }}
-                    />
-                  </div>
 
                   <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{s.summary}</p>
 
@@ -489,9 +591,12 @@ function Portfolio() {
                           <span className="font-mono text-[10px] text-muted-foreground">{c.level}%</span>
                         </div>
                         <div className="mt-1.5 h-[3px] w-full overflow-hidden rounded bg-secondary">
-                          <div
-                            className="h-full rounded bg-accent transition-[width] duration-1000 ease-out"
-                            style={{ width: `${c.level}%` }}
+                          <motion.div
+                            className="h-full rounded bg-accent"
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${c.level}%` }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
                           />
                         </div>
                       </div>
@@ -518,18 +623,29 @@ function Portfolio() {
                     ))}
                   </ul>
 
-                  <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                    Framework · {s.framework}
-                  </p>
+                    <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                      Framework · {s.framework}
+                    </p>
+                  </div>
                 </div>
               </Reveal>
             ))}
           </div>
         </section>
 
+        {/* MITRE ATT&CK Matrix */}
+        <section id="mitre" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-12">
+          <Reveal>
+            <MitreMatrix />
+          </Reveal>
+        </section>
+
         {/* Certifications + Education */}
         <section id="certs" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-16">
           <SectionHeading index="03" title="Certifications & Education" />
+          <Reveal className="mb-6">
+            <RadarScan />
+          </Reveal>
           <div className="grid gap-5 lg:grid-cols-2">
             <ul className="space-y-3">
               {certifications.map((c, i) => (

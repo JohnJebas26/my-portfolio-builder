@@ -125,3 +125,93 @@ html {
   scroll-behavior: smooth;
 }
 
+@keyframes scan-sweep {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.scan-sweep-animation {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-sweep-animation::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to bottom, transparent, var(--color-primary), transparent);
+  opacity: 0.7;
+  pointer-events: none;
+  animation: scan-sweep 6s linear infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.2;
+    box-shadow: 0 0 10px rgba(131, 237, 185, 0.2);
+  }
+  50% {
+    opacity: 0.6;
+    box-shadow: 0 0 25px rgba(131, 237, 185, 0.5);
+  }
+}
+
+.pulse-glow-border:hover {
+  animation: pulse-glow 2s infinite ease-in-out;
+  border-color: var(--color-primary);
+}
+
+.card-panel {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+
+.card-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  transform: skewX(-25deg);
+  transition: 0.75s;
+}
+
+.card-panel:hover::before {
+  left: 125%;
+}
+
+.card-panel:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-accent);
+}
+
+@keyframes radar-sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-radar-sweep {
+  animation: radar-sweep 6s linear infinite;
+}
+
+
+

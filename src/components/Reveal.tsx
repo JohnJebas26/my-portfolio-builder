@@ -1,42 +1,48 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
+import { motion } from "framer-motion";
 
 export function Reveal({
   children,
   delay = 0,
   className = "",
+  direction = "up",
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
+  direction?: "up" | "down" | "left" | "right" | "none";
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [shown, setShown] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          setShown(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.12 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+  const getVariants = () => {
+    const offset = 30;
+    switch (direction) {
+      case "up":
+        return { hidden: { opacity: 0, y: offset }, visible: { opacity: 1, y: 0 } };
+      case "down":
+        return { hidden: { opacity: 0, y: -offset }, visible: { opacity: 1, y: 0 } };
+      case "left":
+        return { hidden: { opacity: 0, x: offset }, visible: { opacity: 1, y: 0 } };
+      case "right":
+        return { hidden: { opacity: 0, x: -offset }, visible: { opacity: 1, y: 0 } };
+      case "none":
+        return { hidden: { opacity: 0 }, visible: { opacity: 1 } };
+    }
+  };
 
   return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
-      className={`transition-all duration-700 ease-out ${
-        shown ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-      } ${className}`}
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-10% 0px" }}
+      transition={{
+        duration: 0.6,
+        delay: delay / 1000,
+        ease: [0.16, 1, 0.3, 1], // Custom cubic-bezier easeOutExpo
+      }}
+      variants={getVariants()}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }
+
