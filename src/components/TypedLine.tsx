@@ -6,7 +6,7 @@ export function TypedLine({ phrases }: { phrases: string[] }) {
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    const full = phrases[index % phrases.length];
+    const full = phrases[index % phrases.length] ?? "";
     const done = !deleting && text === full;
     const cleared = deleting && text === "";
 
