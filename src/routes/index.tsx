@@ -26,64 +26,118 @@ export const Route = createFileRoute("/")({
   component: Portfolio,
 });
 
-const skills: { group: string; items: string[]; level: number }[] = [
+const skills: {
+  group: string;
+  tag: string;
+  level: number;
+  summary: string;
+  core: { name: string; level: number }[];
+  applied: string[];
+  items: string[];
+  framework: string;
+}[] = [
   {
     group: "SIEM & Threat Detection",
+    tag: "SIEM",
     level: 92,
-    items: [
-      "Microsoft Sentinel",
-      "KQL",
-      "Log Analysis",
-      "Threat Hunting",
-      "Alert Tuning & Triage",
-      "Playbook Development",
+    summary:
+      "Daily driver for 24x7 monitoring — building, tuning and hunting across Microsoft Sentinel log sources.",
+    core: [
+      { name: "Microsoft Sentinel", level: 92 },
+      { name: "KQL Query Writing", level: 90 },
+      { name: "Analytics Rule Tuning", level: 85 },
+      { name: "Threat Hunting", level: 82 },
     ],
+    applied: [
+      "Authored KQL analytics rules across sign-in, endpoint and firewall tables with tuned thresholds to cut false positives.",
+      "Ran hypothesis-driven hunts on anomalous authentication, lateral movement and persistence patterns.",
+      "Built workbooks and scheduled queries for daily SOC shift handover and management reporting.",
+    ],
+    items: ["Sentinel", "KQL", "Log Analytics", "Workbooks", "Alert Triage", "Playbooks"],
+    framework: "MITRE ATT&CK detection coverage mapping",
   },
   {
     group: "VAPT & Security Testing",
+    tag: "VAPT",
     level: 85,
-    items: [
-      "Burp Suite Pro",
-      "Nessus",
-      "Nmap",
-      "OWASP ZAP",
-      "SecPod SanerNow",
-      "CVE / CVSS Scoring",
-      "Exploit Validation",
+    summary:
+      "Web and network assessments end-to-end — recon, exploitation validation, and developer-ready remediation reporting.",
+    core: [
+      { name: "Burp Suite Pro", level: 86 },
+      { name: "Nessus / SanerNow", level: 84 },
+      { name: "Nmap & Recon", level: 82 },
+      { name: "Manual Exploitation", level: 75 },
     ],
+    applied: [
+      "Performed authenticated and unauthenticated web app tests covering injection, access control and session flaws.",
+      "Validated scanner output manually to eliminate false positives before raising findings.",
+      "Scored issues with CVSS v3.1 and delivered reproducible PoCs with fix guidance to engineering teams.",
+    ],
+    items: ["Burp Suite", "Nessus", "Nmap", "OWASP ZAP", "SanerNow", "CVSS v3.1"],
+    framework: "OWASP Top 10 / OWASP Testing Guide",
   },
   {
     group: "EDR & Incident Response",
+    tag: "IR",
     level: 88,
-    items: [
-      "Bitdefender EDR",
-      "Malware Analysis",
-      "Threat Containment",
-      "IOC / IOA",
-      "VirusTotal",
-      "Threat Intelligence",
-      "SOAR Concepts",
+    summary:
+      "Endpoint containment and full incident lifecycle — from first alert to root cause and closure notes.",
+    core: [
+      { name: "Bitdefender EDR", level: 88 },
+      { name: "Malware Triage", level: 80 },
+      { name: "Containment & Isolation", level: 86 },
+      { name: "Forensic Timelining", level: 74 },
     ],
+    applied: [
+      "Investigated endpoint detections through process trees, parent-child anomalies and persistence artifacts.",
+      "Isolated compromised hosts, killed malicious processes and coordinated reimaging with IT.",
+      "Documented incidents with timeline, impact, root cause and preventive actions.",
+    ],
+    items: ["Bitdefender EDR", "IOC / IOA", "VirusTotal", "Sandboxing", "SOAR Concepts"],
+    framework: "NIST SP 800-61 incident handling lifecycle",
   },
   {
     group: "Networking & Platforms",
+    tag: "INFRA",
     level: 80,
-    items: [
-      "TCP/IP",
-      "DNS",
-      "HTTP/HTTPS",
-      "Windows",
-      "Linux (Kali)",
-      "Firewall Fundamentals",
-      "Traffic Analysis",
+    summary:
+      "Protocol-level understanding that underpins traffic analysis, log interpretation and detection accuracy.",
+    core: [
+      { name: "TCP/IP & DNS", level: 84 },
+      { name: "Windows Internals", level: 78 },
+      { name: "Linux (Kali)", level: 78 },
+      { name: "Firewall & Proxy Logs", level: 76 },
     ],
+    applied: [
+      "Analysed packet captures and firewall logs to confirm C2 beaconing and data exfiltration attempts.",
+      "Correlated Windows event IDs (4624/4625/4688/7045) into detection logic.",
+      "Reviewed DNS and proxy telemetry for tunnelling and newly registered domain access.",
+    ],
+    items: ["TCP/IP", "DNS", "HTTP/HTTPS", "Windows", "Kali Linux", "Wireshark", "Firewalls"],
+    framework: "Cyber Kill Chain traffic-stage analysis",
   },
   {
-    group: "Scripting & Tools",
+    group: "Scripting & Automation",
+    tag: "AUTO",
     level: 72,
-    items: ["KQL", "SQL", "Python (Basic)", "Bash"],
+    summary:
+      "Query and script work to remove manual toil from triage, enrichment and reporting workflows.",
+    core: [
+      { name: "KQL", level: 90 },
+      { name: "SQL", level: 74 },
+      { name: "Python", level: 65 },
+      { name: "Bash", level: 62 },
+    ],
+    applied: [
+      "Wrote reusable KQL functions for repeated triage lookups across analysts.",
+      "Used Python scripts for bulk IOC enrichment and report data formatting.",
+      "Automated recurring evidence collection steps with shell one-liners.",
+    ],
+    items: ["KQL", "SQL", "Python", "Bash", "REST APIs", "Automation Playbooks"],
+    framework: "SOC toil reduction / analyst enablement",
   },
 ];
+
 
 const duties: {
   tag: string;
