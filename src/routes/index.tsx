@@ -85,36 +85,107 @@ const skills: { group: string; items: string[]; level: number }[] = [
   },
 ];
 
-const duties = [
+const duties: {
+  tag: string;
+  title: string;
+  summary: string;
+  points: string[];
+  tools: string[];
+  mitre: string;
+}[] = [
   {
     tag: "SIEM",
-    text: "Monitored and investigated security alerts in Microsoft Sentinel using KQL — alert triage, log analysis and threat hunting across enterprise environments.",
+    title: "SIEM Monitoring & Threat Hunting",
+    summary:
+      "Front-line monitoring of enterprise log sources in Microsoft Sentinel, turning raw telemetry into actionable incidents.",
+    points: [
+      "Triaged daily alert queues across Windows, Linux, firewall, identity and endpoint log sources, classifying true/false positives with documented rationale.",
+      "Wrote and iterated KQL hunting queries over SecurityEvent, SigninLogs and DeviceEvents to surface anomalies that no existing rule covered.",
+      "Correlated multi-source events into single incidents to remove duplicate noise and give responders one timeline per intrusion attempt.",
+    ],
+    tools: ["Microsoft Sentinel", "KQL", "Log Analytics", "Azure AD Logs"],
+    mitre: "TA0001 Initial Access · TA0006 Credential Access",
   },
   {
     tag: "DETECTION",
-    text: "Created and tuned Sentinel analytics rules, automation playbooks and incident workflows to improve detection quality and SOC efficiency.",
+    title: "Detection Engineering & Automation",
+    summary:
+      "Improved detection quality by tuning what fires, when it fires, and what happens automatically afterwards.",
+    points: [
+      "Authored and tuned Sentinel analytics rules, adjusting thresholds, entity mappings and suppression windows to cut alert fatigue without losing coverage.",
+      "Built automation playbooks for repetitive triage steps — enrichment, entity lookup and analyst notification — shortening time-to-first-action.",
+      "Mapped detections to MITRE ATT&CK techniques so coverage gaps were visible and prioritised rather than assumed.",
+    ],
+    tools: ["Analytics Rules", "Logic Apps Playbooks", "MITRE ATT&CK", "SOAR Concepts"],
+    mitre: "Detection coverage mapping",
   },
   {
     tag: "IR",
-    text: "Investigated phishing, brute-force, malware and suspicious authentication incidents, documenting findings and driving containment and remediation.",
+    title: "Incident Response & Investigation",
+    summary:
+      "Owned incidents end-to-end from detection through containment, remediation and closure reporting.",
+    points: [
+      "Investigated phishing campaigns — header analysis, URL and attachment detonation, affected-user scoping and mailbox-level cleanup.",
+      "Handled brute-force and impossible-travel sign-in incidents: validated source IP reputation, confirmed compromise, forced credential resets.",
+      "Documented each incident with timeline, root cause, impact and remediation actions, and fed findings back into detection tuning.",
+    ],
+    tools: ["Sentinel Incidents", "VirusTotal", "AbuseIPDB", "Email Header Analysis"],
+    mitre: "TA0043 Recon · TA0011 Command & Control",
   },
   {
     tag: "VAPT",
-    text: "Conducted VAPT on web applications and internal systems with Burp Suite Pro, Nessus and OWASP ZAP — SQLi, XSS, auth flaws and misconfigurations.",
+    title: "Vulnerability Assessment & Penetration Testing",
+    summary:
+      "Offensive-side testing of web applications and internal systems, reported with reproducible evidence.",
+    points: [
+      "Performed authenticated and unauthenticated web app testing against the OWASP Top 10 — SQL injection, XSS, broken access control, auth and session flaws.",
+      "Validated scanner output manually to eliminate false positives before anything reached the remediation backlog.",
+      "Delivered VAPT reports with reproduction steps, CVSS-scored severity, business impact and concrete developer-facing fixes.",
+    ],
+    tools: ["Burp Suite Pro", "OWASP ZAP", "Nmap", "Nessus", "Kali Linux"],
+    mitre: "OWASP Top 10 aligned",
   },
   {
     tag: "VM",
-    text: "Ran vulnerability assessments across endpoints with SecPod SanerNow and Nessus, prioritising remediation by CVE/CVSS severity.",
+    title: "Vulnerability & Patch Management",
+    summary:
+      "Continuous assessment of the endpoint and server estate with risk-ranked remediation tracking.",
+    points: [
+      "Ran scheduled authenticated scans across Windows and Linux endpoints, tracking newly introduced CVEs between cycles.",
+      "Prioritised remediation using CVSS severity combined with asset exposure and exploit availability rather than raw score alone.",
+      "Coordinated with IT teams on patch cycles and re-validated closure with follow-up scans.",
+    ],
+    tools: ["SecPod SanerNow", "Nessus", "CVE / CVSS", "Patch Cycles"],
+    mitre: "Exposure reduction",
   },
   {
     tag: "EDR",
-    text: "Managed endpoint security with Bitdefender EDR across Windows and Linux — malware investigation, containment and endpoint analysis.",
+    title: "Endpoint Detection & Response",
+    summary:
+      "Day-to-day ownership of endpoint protection posture and malware investigation across the estate.",
+    points: [
+      "Investigated EDR detections — process trees, parent-child anomalies, persistence artefacts and suspicious script execution.",
+      "Contained compromised hosts through isolation and blocked malicious hashes and processes across the fleet.",
+      "Reviewed policy exclusions and endpoint health to keep coverage complete and false positives low.",
+    ],
+    tools: ["Bitdefender EDR", "Windows Event Logs", "Process Analysis", "Host Isolation"],
+    mitre: "TA0002 Execution · TA0003 Persistence",
   },
   {
     tag: "INTEL",
-    text: "Validated malicious IPs, domains and hashes via VirusTotal and threat intel sources, and prepared incident and VAPT reports with remediation guidance.",
+    title: "Threat Intelligence & Reporting",
+    summary:
+      "Enriched investigations with external context and turned technical findings into readable reporting.",
+    points: [
+      "Validated IPs, domains, URLs and file hashes against VirusTotal and open-source threat intel before blocking or escalating.",
+      "Maintained IOC context for recurring campaigns so repeat activity was recognised immediately.",
+      "Produced incident and assessment reports for both technical responders and non-technical stakeholders.",
+    ],
+    tools: ["VirusTotal", "OSINT Feeds", "IOC / IOA", "Reporting"],
+    mitre: "Enrichment & attribution",
   },
 ];
+
 
 const certifications = [
   { name: "Certified Ethical Hacker (CEH)", issuer: "EC-Council", status: "In Progress" },
