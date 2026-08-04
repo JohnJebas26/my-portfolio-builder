@@ -350,17 +350,54 @@ function Portfolio() {
                 </span>
               </div>
               <p className="mt-1 text-sm text-muted-foreground">TVS Electronics · Chennai</p>
-              <ul className="mt-6 space-y-4 border-l border-border pl-5">
+              <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+                Operating inside a 24/7 Security Operations Center covering Windows, Linux, identity
+                and network telemetry. Responsibilities span the full defensive lifecycle — detection
+                engineering, alert triage, incident response, endpoint containment, vulnerability
+                management and offensive validation of the organisation's web-facing assets.
+              </p>
+
+              <ul className="mt-8 space-y-6 border-l border-border pl-5 sm:pl-6">
                 {duties.map((d) => (
                   <li key={d.tag} className="relative">
-                    <span className="absolute -left-[1.44rem] top-2 h-2 w-2 rounded-full bg-primary" />
-                    <span className="mr-2 font-mono text-[10px] uppercase tracking-widest text-accent">
-                      {d.tag}
-                    </span>
-                    <span className="text-sm leading-relaxed text-muted-foreground">{d.text}</span>
+                    <span className="absolute -left-[1.44rem] top-2 h-2 w-2 rounded-full bg-primary sm:-left-[1.69rem]" />
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                      <span className="rounded border border-accent/40 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-widest text-accent">
+                        {d.tag}
+                      </span>
+                      <h4 className="font-mono text-sm font-semibold text-foreground">{d.title}</h4>
+                    </div>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      {d.summary}
+                    </p>
+                    <ul className="mt-3 space-y-2">
+                      {d.points.map((p) => (
+                        <li
+                          key={p}
+                          className="flex gap-2.5 text-sm leading-relaxed text-muted-foreground"
+                        >
+                          <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                          <span>{p}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <ul className="mt-3 flex flex-wrap gap-2">
+                      {d.tools.map((t) => (
+                        <li
+                          key={t}
+                          className="rounded border border-border bg-secondary px-2 py-0.5 font-mono text-[11px] text-secondary-foreground"
+                        >
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-primary/80">
+                      {d.mitre}
+                    </p>
                   </li>
                 ))}
               </ul>
+
             </div>
           </Reveal>
         </section>
