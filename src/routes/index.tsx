@@ -459,12 +459,17 @@ function Portfolio() {
         {/* Skills */}
         <section id="skills" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-16">
           <SectionHeading index="02" title="Technical Skills" />
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-5">
             {skills.map((s, i) => (
               <Reveal key={s.group} delay={i * 70}>
                 <div className="card-panel h-full p-6 transition-colors hover:border-primary">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h3 className="mono-label">{s.group}</h3>
+                  <div className="flex flex-wrap items-baseline justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <span className="rounded border border-primary/40 bg-primary/10 px-2 py-0.5 font-mono text-[10px] tracking-widest text-primary">
+                        {s.tag}
+                      </span>
+                      <h3 className="mono-label">{s.group}</h3>
+                    </div>
                     <span className="font-mono text-xs text-muted-foreground">{s.level}%</span>
                   </div>
                   <div className="mt-3 h-1 w-full overflow-hidden rounded bg-secondary">
@@ -473,7 +478,36 @@ function Portfolio() {
                       style={{ width: `${s.level}%` }}
                     />
                   </div>
-                  <ul className="mt-4 flex flex-wrap gap-2">
+
+                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{s.summary}</p>
+
+                  <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                    {s.core.map((c) => (
+                      <div key={c.name}>
+                        <div className="flex items-baseline justify-between gap-2">
+                          <span className="font-mono text-xs text-foreground">{c.name}</span>
+                          <span className="font-mono text-[10px] text-muted-foreground">{c.level}%</span>
+                        </div>
+                        <div className="mt-1.5 h-[3px] w-full overflow-hidden rounded bg-secondary">
+                          <div
+                            className="h-full rounded bg-accent transition-[width] duration-1000 ease-out"
+                            style={{ width: `${c.level}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <ul className="mt-5 space-y-2 border-l border-border pl-4">
+                    {s.applied.map((a) => (
+                      <li key={a} className="text-sm leading-relaxed text-muted-foreground">
+                        <span className="mr-2 font-mono text-xs text-primary">▸</span>
+                        {a}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <ul className="mt-5 flex flex-wrap gap-2">
                     {s.items.map((item) => (
                       <li
                         key={item}
@@ -483,6 +517,10 @@ function Portfolio() {
                       </li>
                     ))}
                   </ul>
+
+                  <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                    Framework · {s.framework}
+                  </p>
                 </div>
               </Reveal>
             ))}
