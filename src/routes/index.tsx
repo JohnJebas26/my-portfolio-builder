@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import resumeAsset from "@/assets/resume.pdf.asset.json";
+import { SiteNav } from "@/components/SiteNav";
+import { Reveal } from "@/components/Reveal";
+import { TypedLine } from "@/components/TypedLine";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,9 +26,10 @@ export const Route = createFileRoute("/")({
   component: Portfolio,
 });
 
-const skills: { group: string; items: string[] }[] = [
+const skills: { group: string; items: string[]; level: number }[] = [
   {
     group: "SIEM & Threat Detection",
+    level: 92,
     items: [
       "Microsoft Sentinel",
       "KQL",
@@ -37,6 +41,7 @@ const skills: { group: string; items: string[] }[] = [
   },
   {
     group: "VAPT & Security Testing",
+    level: 85,
     items: [
       "Burp Suite Pro",
       "Nessus",
@@ -49,6 +54,7 @@ const skills: { group: string; items: string[] }[] = [
   },
   {
     group: "EDR & Incident Response",
+    level: 88,
     items: [
       "Bitdefender EDR",
       "Malware Analysis",
@@ -61,6 +67,7 @@ const skills: { group: string; items: string[] }[] = [
   },
   {
     group: "Networking & Platforms",
+    level: 80,
     items: [
       "TCP/IP",
       "DNS",
@@ -73,18 +80,40 @@ const skills: { group: string; items: string[] }[] = [
   },
   {
     group: "Scripting & Tools",
+    level: 72,
     items: ["KQL", "SQL", "Python (Basic)", "Bash"],
   },
 ];
 
 const duties = [
-  "Monitored and investigated security alerts in Microsoft Sentinel using KQL — alert triage, log analysis and threat hunting across enterprise environments.",
-  "Created and tuned Sentinel analytics rules, automation playbooks and incident workflows to improve detection quality and SOC efficiency.",
-  "Investigated phishing, brute-force, malware and suspicious authentication incidents, documenting findings and driving containment and remediation.",
-  "Conducted VAPT on web applications and internal systems with Burp Suite Pro, Nessus and OWASP ZAP — SQLi, XSS, auth flaws and misconfigurations.",
-  "Ran vulnerability assessments across endpoints with SecPod SanerNow and Nessus, prioritising remediation by CVE/CVSS severity.",
-  "Managed endpoint security with Bitdefender EDR across Windows and Linux — malware investigation, containment and endpoint analysis.",
-  "Validated malicious IPs, domains and hashes via VirusTotal and threat intel sources, and prepared incident and VAPT reports with remediation guidance.",
+  {
+    tag: "SIEM",
+    text: "Monitored and investigated security alerts in Microsoft Sentinel using KQL — alert triage, log analysis and threat hunting across enterprise environments.",
+  },
+  {
+    tag: "DETECTION",
+    text: "Created and tuned Sentinel analytics rules, automation playbooks and incident workflows to improve detection quality and SOC efficiency.",
+  },
+  {
+    tag: "IR",
+    text: "Investigated phishing, brute-force, malware and suspicious authentication incidents, documenting findings and driving containment and remediation.",
+  },
+  {
+    tag: "VAPT",
+    text: "Conducted VAPT on web applications and internal systems with Burp Suite Pro, Nessus and OWASP ZAP — SQLi, XSS, auth flaws and misconfigurations.",
+  },
+  {
+    tag: "VM",
+    text: "Ran vulnerability assessments across endpoints with SecPod SanerNow and Nessus, prioritising remediation by CVE/CVSS severity.",
+  },
+  {
+    tag: "EDR",
+    text: "Managed endpoint security with Bitdefender EDR across Windows and Linux — malware investigation, containment and endpoint analysis.",
+  },
+  {
+    tag: "INTEL",
+    text: "Validated malicious IPs, domains and hashes via VirusTotal and threat intel sources, and prepared incident and VAPT reports with remediation guidance.",
+  },
 ];
 
 const certifications = [
@@ -102,6 +131,28 @@ const stats = [
   { value: "OWASP", label: "Top 10 Testing" },
 ];
 
+const capabilities = [
+  {
+    title: "Detect",
+    body: "Sentinel analytics rules, KQL hunting queries and tuned alerting that cut noise without losing signal.",
+  },
+  {
+    title: "Respond",
+    body: "Structured triage of phishing, brute-force and malware incidents through containment and closure.",
+  },
+  {
+    title: "Harden",
+    body: "Continuous vulnerability assessment and web app pentesting mapped to CVSS-prioritised remediation.",
+  },
+];
+
+const kqlSample = `SecurityEvent
+| where TimeGenerated > ago(24h)
+| where EventID == 4625
+| summarize Failures = count() by Account, IPAddress
+| where Failures > 15
+| order by Failures desc`;
+
 function SectionHeading({ index, title }: { index: string; title: string }) {
   return (
     <div className="mb-8 flex items-baseline gap-4">
@@ -114,199 +165,263 @@ function SectionHeading({ index, title }: { index: string; title: string }) {
 
 function Portfolio() {
   return (
-    <main className="min-h-screen">
-      {/* Hero */}
-      <section className="hero-glow border-b border-border">
-        <div className="mx-auto max-w-5xl px-6 py-24 sm:py-32">
-          <p className="mono-label">$ whoami</p>
-          <h1 className="mt-4 font-mono text-4xl font-bold leading-tight tracking-tight sm:text-6xl">
-            John Jebas
-          </h1>
-          <p className="mt-4 max-w-2xl text-lg text-muted-foreground sm:text-xl">
-            Cyber Security Analyst (SOC Tier 1&amp;2) — Microsoft Sentinel · KQL threat hunting ·
-            Bitdefender EDR · VAPT
-          </p>
-          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            1 year 5 months of Security Operations Center experience at TVS Electronics across
-            threat detection, incident investigation and vulnerability management. Splunk certified,
-            currently pursuing CEH.
-          </p>
+    <>
+      <SiteNav />
+      <main className="min-h-screen">
+        {/* Hero */}
+        <section className="hero-glow scanlines border-b border-border">
+          <div className="mx-auto max-w-5xl px-6 py-20 sm:py-28">
+            <p className="mono-label">$ whoami</p>
+            <h1 className="mt-4 font-mono text-4xl font-bold leading-tight tracking-tight sm:text-6xl">
+              John Jebas
+            </h1>
+            <p className="mt-4 min-h-[2em] max-w-2xl text-lg sm:text-xl">
+              <TypedLine
+                phrases={[
+                  "SOC Tier 1&2 Analyst",
+                  "Microsoft Sentinel · KQL threat hunting",
+                  "Bitdefender EDR incident response",
+                  "Web application VAPT",
+                ]}
+              />
+            </p>
+            <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              1 year 5 months of Security Operations Center experience at TVS Electronics across
+              threat detection, incident investigation and vulnerability management. Splunk
+              certified, currently pursuing CEH.
+            </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href={resumeAsset.url}
-              download="John_Jebas_Resume.pdf"
-              className="glow-ring inline-flex items-center rounded-md bg-primary px-5 py-2.5 font-mono text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
-            >
-              Download Résumé
-            </a>
-            <a
-              href="mailto:johnjebas02@gmail.com"
-              className="inline-flex items-center rounded-md border border-border bg-card px-5 py-2.5 font-mono text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
-            >
-              johnjebas02@gmail.com
-            </a>
-            <a
-              href="https://linkedin.com/in/john-jebas-a24659275"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center rounded-md border border-border bg-card px-5 py-2.5 font-mono text-sm font-semibold text-foreground transition-colors hover:border-accent hover:text-accent"
-            >
-              LinkedIn
-            </a>
-          </div>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href={resumeAsset.url}
+                download="John_Jebas_Resume.pdf"
+                className="glow-ring inline-flex items-center rounded-md bg-primary px-5 py-2.5 font-mono text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              >
+                Download Résumé
+              </a>
+              <a
+                href="mailto:johnjebas02@gmail.com"
+                className="inline-flex items-center rounded-md border border-border bg-card px-5 py-2.5 font-mono text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+              >
+                johnjebas02@gmail.com
+              </a>
+              <a
+                href="https://linkedin.com/in/john-jebas-a24659275"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center rounded-md border border-border bg-card px-5 py-2.5 font-mono text-sm font-semibold text-foreground transition-colors hover:border-accent hover:text-accent"
+              >
+                LinkedIn
+              </a>
+            </div>
 
-          <div className="mt-6 font-mono text-xs text-muted-foreground">
-            Chennai, Tamil Nadu · +91 89398 90285
-          </div>
+            <div className="mt-6 font-mono text-xs text-muted-foreground">
+              Chennai, Tamil Nadu · +91 89398 90285
+            </div>
 
-          <dl className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {stats.map((s) => (
-              <div key={s.label} className="card-panel px-4 py-5">
-                <dt className="font-mono text-xl font-bold text-primary">{s.value}</dt>
-                <dd className="mt-1 text-xs uppercase tracking-wider text-muted-foreground">
-                  {s.label}
-                </dd>
+            {/* Terminal card */}
+            <Reveal className="mt-12">
+              <div className="card-panel overflow-hidden">
+                <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
+                  <span className="h-2.5 w-2.5 rounded-full bg-destructive/80" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-accent/80" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-primary/80" />
+                  <span className="ml-2 font-mono text-[11px] text-muted-foreground">
+                    sentinel — brute-force hunt.kql
+                  </span>
+                </div>
+                <pre className="overflow-x-auto px-4 py-4 font-mono text-[11px] leading-relaxed text-muted-foreground sm:text-xs">
+                  <code>{kqlSample}</code>
+                </pre>
               </div>
-            ))}
-          </dl>
-        </div>
-      </section>
+            </Reveal>
 
-      {/* Experience */}
-      <section className="mx-auto max-w-5xl px-6 py-20">
-        <SectionHeading index="01" title="Experience" />
-        <div className="card-panel p-6 sm:p-8">
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <h3 className="font-mono text-lg font-semibold">
-              Cyber Security Analyst — SOC Tier 1&amp;2
-            </h3>
-            <span className="font-mono text-xs text-primary">March 2025 – Present</span>
+            <dl className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+              {stats.map((s, i) => (
+                <Reveal key={s.label} delay={i * 80}>
+                  <div className="card-panel h-full px-4 py-5 transition-colors hover:border-primary">
+                    <dt className="font-mono text-xl font-bold text-primary">{s.value}</dt>
+                    <dd className="mt-1 text-xs uppercase tracking-wider text-muted-foreground">
+                      {s.label}
+                    </dd>
+                  </div>
+                </Reveal>
+              ))}
+            </dl>
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">TVS Electronics · Chennai</p>
-          <ul className="mt-6 space-y-4">
-            {duties.map((d) => (
-              <li key={d} className="flex gap-3 text-sm leading-relaxed text-muted-foreground">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                <span>{d}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+        </section>
 
-      {/* Skills */}
-      <section className="mx-auto max-w-5xl px-6 py-20">
-        <SectionHeading index="02" title="Technical Skills" />
-        <div className="grid gap-5 sm:grid-cols-2">
-          {skills.map((s) => (
-            <div key={s.group} className="card-panel p-6">
-              <h3 className="mono-label">{s.group}</h3>
-              <ul className="mt-4 flex flex-wrap gap-2">
-                {s.items.map((i) => (
-                  <li
-                    key={i}
-                    className="rounded border border-border bg-secondary px-2.5 py-1 font-mono text-xs text-secondary-foreground"
-                  >
-                    {i}
+        {/* Capabilities */}
+        <section className="mx-auto max-w-5xl px-6 py-16">
+          <div className="grid gap-5 sm:grid-cols-3">
+            {capabilities.map((c, i) => (
+              <Reveal key={c.title} delay={i * 90}>
+                <div className="card-panel h-full p-6 transition-colors hover:border-accent">
+                  <h3 className="mono-label">{c.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
+        {/* Experience */}
+        <section id="experience" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-16">
+          <SectionHeading index="01" title="Experience" />
+          <Reveal>
+            <div className="card-panel p-6 sm:p-8">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h3 className="font-mono text-lg font-semibold">
+                  Cyber Security Analyst — SOC Tier 1&amp;2
+                </h3>
+                <span className="rounded border border-primary/40 px-2 py-1 font-mono text-xs text-primary">
+                  March 2025 – Present
+                </span>
+              </div>
+              <p className="mt-1 text-sm text-muted-foreground">TVS Electronics · Chennai</p>
+              <ul className="mt-6 space-y-4 border-l border-border pl-5">
+                {duties.map((d) => (
+                  <li key={d.tag} className="relative">
+                    <span className="absolute -left-[1.44rem] top-2 h-2 w-2 rounded-full bg-primary" />
+                    <span className="mr-2 font-mono text-[10px] uppercase tracking-widest text-accent">
+                      {d.tag}
+                    </span>
+                    <span className="text-sm leading-relaxed text-muted-foreground">{d.text}</span>
                   </li>
                 ))}
               </ul>
             </div>
-          ))}
-        </div>
-      </section>
+          </Reveal>
+        </section>
 
-      {/* Certifications + Education */}
-      <section className="mx-auto max-w-5xl px-6 py-20">
-        <SectionHeading index="03" title="Certifications & Education" />
-        <div className="grid gap-5 lg:grid-cols-2">
-          <ul className="space-y-3">
-            {certifications.map((c) => (
-              <li key={c.name} className="card-panel flex items-center justify-between gap-4 p-5">
-                <div>
-                  <p className="text-sm font-semibold">{c.name}</p>
-                  <p className="mt-0.5 font-mono text-xs text-muted-foreground">{c.issuer}</p>
+        {/* Skills */}
+        <section id="skills" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-16">
+          <SectionHeading index="02" title="Technical Skills" />
+          <div className="grid gap-5 sm:grid-cols-2">
+            {skills.map((s, i) => (
+              <Reveal key={s.group} delay={i * 70}>
+                <div className="card-panel h-full p-6 transition-colors hover:border-primary">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <h3 className="mono-label">{s.group}</h3>
+                    <span className="font-mono text-xs text-muted-foreground">{s.level}%</span>
+                  </div>
+                  <div className="mt-3 h-1 w-full overflow-hidden rounded bg-secondary">
+                    <div
+                      className="h-full rounded bg-primary transition-[width] duration-1000 ease-out"
+                      style={{ width: `${s.level}%` }}
+                    />
+                  </div>
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {s.items.map((item) => (
+                      <li
+                        key={item}
+                        className="rounded border border-border bg-secondary px-2.5 py-1 font-mono text-xs text-secondary-foreground transition-colors hover:border-accent hover:text-accent"
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                {c.status ? (
-                  <span className="shrink-0 rounded border border-accent px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-accent">
-                    {c.status}
-                  </span>
-                ) : null}
-              </li>
+              </Reveal>
             ))}
-          </ul>
-          <div className="card-panel h-fit p-6">
-            <h3 className="mono-label">Education</h3>
-            <p className="mt-4 text-sm font-semibold">
-              B.Tech — Computer Science and Engineering
-            </p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Dr. M.G.R. Educational and Research Institute, Chennai
-            </p>
-            <p className="mt-2 font-mono text-xs text-primary">2020 – 2024 · CGPA 7.91</p>
+          </div>
+        </section>
 
-            <h3 className="mono-label mt-8">Beyond Work</h3>
-            <ul className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
-              <li>Active on TryHackMe and Hack The Box — hands-on labs and CTF challenges.</li>
-              <li>
-                Focused on SOC operations, threat hunting, incident response and cloud security.
-              </li>
+        {/* Certifications + Education */}
+        <section id="certs" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-16">
+          <SectionHeading index="03" title="Certifications & Education" />
+          <div className="grid gap-5 lg:grid-cols-2">
+            <ul className="space-y-3">
+              {certifications.map((c, i) => (
+                <Reveal key={c.name} delay={i * 60}>
+                  <li className="card-panel flex items-center justify-between gap-4 p-5 transition-colors hover:border-primary">
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold">{c.name}</p>
+                      <p className="mt-0.5 font-mono text-xs text-muted-foreground">{c.issuer}</p>
+                    </div>
+                    {c.status ? (
+                      <span className="shrink-0 rounded border border-accent px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-accent">
+                        {c.status}
+                      </span>
+                    ) : null}
+                  </li>
+                </Reveal>
+              ))}
             </ul>
-          </div>
-        </div>
-      </section>
+            <Reveal delay={120}>
+              <div className="card-panel h-fit p-6">
+                <h3 className="mono-label">Education</h3>
+                <p className="mt-4 text-sm font-semibold">B.Tech — Computer Science and Engineering</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Dr. M.G.R. Educational and Research Institute, Chennai
+                </p>
+                <p className="mt-2 font-mono text-xs text-primary">2020 – 2024 · CGPA 7.91</p>
 
-      {/* Projects */}
-      <section className="mx-auto max-w-5xl px-6 py-20">
-        <SectionHeading index="04" title="Projects" />
-        <div className="card-panel p-6 sm:p-8">
-          <h3 className="font-mono text-lg font-semibold">
-            IFLEX TRAX 1.7 — Facebook-Style User Registration System
-          </h3>
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            Collaboratively developed a Facebook-style user registration system with secure signup,
-            form validation, database integration and a responsive interface.
-          </p>
-          <ul className="mt-5 flex flex-wrap gap-2">
-            {["Python", "Django", "MySQL", "HTML", "CSS", "JavaScript"].map((t) => (
-              <li
-                key={t}
-                className="rounded border border-border bg-secondary px-2.5 py-1 font-mono text-xs"
+                <h3 className="mono-label mt-8">Beyond Work</h3>
+                <ul className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
+                  <li>Active on TryHackMe and Hack The Box — hands-on labs and CTF challenges.</li>
+                  <li>
+                    Focused on SOC operations, threat hunting, incident response and cloud security.
+                  </li>
+                </ul>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Projects */}
+        <section id="projects" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-16">
+          <SectionHeading index="04" title="Projects" />
+          <Reveal>
+            <div className="card-panel p-6 transition-colors hover:border-accent sm:p-8">
+              <h3 className="font-mono text-lg font-semibold">
+                IFLEX TRAX 1.7 — Facebook-Style User Registration System
+              </h3>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                Collaboratively developed a Facebook-style user registration system with secure
+                signup, form validation, database integration and a responsive interface.
+              </p>
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {["Python", "Django", "MySQL", "HTML", "CSS", "JavaScript"].map((t) => (
+                  <li
+                    key={t}
+                    className="rounded border border-border bg-secondary px-2.5 py-1 font-mono text-xs"
+                  >
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        </section>
+
+        {/* Contact */}
+        <section id="contact" className="scroll-mt-24 border-t border-border">
+          <div className="mx-auto max-w-5xl px-6 py-20 text-center">
+            <p className="mono-label">$ contact --open</p>
+            <h2 className="mt-4 font-mono text-3xl font-bold tracking-tight">
+              Open to SOC &amp; Security Analyst roles
+            </h2>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <a
+                href="mailto:johnjebas02@gmail.com"
+                className="glow-ring inline-flex items-center rounded-md bg-primary px-5 py-2.5 font-mono text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
               >
-                {t}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* Contact */}
-      <section className="border-t border-border">
-        <div className="mx-auto max-w-5xl px-6 py-20 text-center">
-          <p className="mono-label">$ contact --open</p>
-          <h2 className="mt-4 font-mono text-3xl font-bold tracking-tight">
-            Open to SOC &amp; Security Analyst roles
-          </h2>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a
-              href="mailto:johnjebas02@gmail.com"
-              className="glow-ring inline-flex items-center rounded-md bg-primary px-5 py-2.5 font-mono text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
-            >
-              Email me
-            </a>
-            <a
-              href="tel:+918939890285"
-              className="inline-flex items-center rounded-md border border-border bg-card px-5 py-2.5 font-mono text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
-            >
-              +91 89398 90285
-            </a>
+                Email me
+              </a>
+              <a
+                href="tel:+918939890285"
+                className="inline-flex items-center rounded-md border border-border bg-card px-5 py-2.5 font-mono text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
+              >
+                +91 89398 90285
+              </a>
+            </div>
+            <p className="mt-12 font-mono text-xs text-muted-foreground">
+              © {new Date().getFullYear()} John Jebas · Chennai, India
+            </p>
           </div>
-          <p className="mt-12 font-mono text-xs text-muted-foreground">
-            © {new Date().getFullYear()} John Jebas · Chennai, India
-          </p>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </>
   );
 }
