@@ -336,7 +336,8 @@ function Portfolio() {
               <button
                 onClick={async () => {
                   try {
-                    const response = await fetch(resumeAsset.url);
+                    const response = await fetch("/John_Jebas_Resume.pdf");
+                    if (!response.ok) throw new Error("Local file not found");
                     const blob = await response.blob();
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement("a");
