@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 interface VerificationLog {
   cert: string;
   hash: string;
-  status: "OK" | "PENDING" | "VERIFIED";
+  status: "OK" | "PENDING" | "VERIFIED" | "COMPLETED";
 }
 
 const certLogs: VerificationLog[] = [
-  { cert: "Certified Ethical Hacker (CEH)", hash: "ec:ceh:9421", status: "VERIFIED" },
+  { cert: "Certified Ethical Hacker (CEH)", hash: "ec:ceh:9421", status: "COMPLETED" },
   { cert: "Security Operations and Defense Analyst", hash: "sp:soda:1102", status: "VERIFIED" },
   { cert: "Understanding Threats and Attacks", hash: "sp:uta:7739", status: "VERIFIED" },
   { cert: "Cybersecurity Essentials", hash: "co:ess:8841", status: "VERIFIED" },
