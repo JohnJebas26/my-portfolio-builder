@@ -21,6 +21,7 @@ export function RadarScan() {
   useEffect(() => {
     const interval = setInterval(() => {
       const currentCert = certLogs[currentIndex];
+      if (!currentCert) return;
       const timeString = new Date().toLocaleTimeString();
       let logMessage = "";
 
