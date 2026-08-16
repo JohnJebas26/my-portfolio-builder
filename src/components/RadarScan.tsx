@@ -25,7 +25,9 @@ export function RadarScan() {
       const timeString = new Date().toLocaleTimeString();
       let logMessage = "";
 
-      if (currentCert.status === "VERIFIED") {
+      if (currentCert.status === "COMPLETED") {
+        logMessage = `[${timeString}] CERTIFICATION COMPLETE: ${currentCert.cert} -> STATUS: [COMPLETED]`;
+      } else if (currentCert.status === "VERIFIED") {
         logMessage = `[${timeString}] SECURE CHECK: ${currentCert.cert} -> SHA256 MATCH [OK]`;
       } else {
         logMessage = `[${timeString}] CHECKING CERT: ${currentCert.cert} -> ENVELOPE STATUS: IN_PROGRESS`;
