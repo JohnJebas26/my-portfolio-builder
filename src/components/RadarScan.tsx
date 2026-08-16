@@ -7,7 +7,7 @@ interface VerificationLog {
 }
 
 const certLogs: VerificationLog[] = [
-  { cert: "Certified Ethical Hacker (CEH)", hash: "ec:ceh:9421", status: "PENDING" },
+  { cert: "Certified Ethical Hacker (CEH)", hash: "ec:ceh:9421", status: "VERIFIED" },
   { cert: "Security Operations and Defense Analyst", hash: "sp:soda:1102", status: "VERIFIED" },
   { cert: "Understanding Threats and Attacks", hash: "sp:uta:7739", status: "VERIFIED" },
   { cert: "Cybersecurity Essentials", hash: "co:ess:8841", status: "VERIFIED" },
@@ -21,6 +21,7 @@ export function RadarScan() {
   useEffect(() => {
     const interval = setInterval(() => {
       const currentCert = certLogs[currentIndex];
+      if (!currentCert) return;
       const timeString = new Date().toLocaleTimeString();
       let logMessage = "";
 

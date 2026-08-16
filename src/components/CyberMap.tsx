@@ -71,6 +71,7 @@ export function CyberMap() {
   function spawnArc() {
     const src = attackSources[Math.floor(Math.random() * attackSources.length)];
     const atk = attackTypes[Math.floor(Math.random() * attackTypes.length)];
+    if (!src || !atk) return;
     const arcId = `arc-${idCounter++}`;
 
     const mx = (src.x + TARGET.x) / 2 + (Math.random() - 0.5) * 60;

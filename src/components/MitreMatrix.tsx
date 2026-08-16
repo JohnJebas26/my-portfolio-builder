@@ -120,7 +120,7 @@ const mitreData: TacticDetails[] = [
 ];
 
 export function MitreMatrix() {
-  const [selectedTactic, setSelectedTactic] = useState<TacticDetails>(mitreData[0]);
+  const [selectedTactic, setSelectedTactic] = useState<TacticDetails>(mitreData[0]!);
   const [selectedTechIndex, setSelectedTechIndex] = useState(0);
 
   return (
