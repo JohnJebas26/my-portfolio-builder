@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 interface VerificationLog {
   cert: string;
   hash: string;
-  status: "OK" | "PENDING" | "VERIFIED";
+  status: "OK" | "PENDING" | "VERIFIED" | "COMPLETED";
 }
 
 const certLogs: VerificationLog[] = [
-  { cert: "Certified Ethical Hacker (CEH)", hash: "ec:ceh:9421", status: "VERIFIED" },
+  { cert: "Certified Ethical Hacker (CEH)", hash: "ec:ceh:9421", status: "COMPLETED" },
   { cert: "Security Operations and Defense Analyst", hash: "sp:soda:1102", status: "VERIFIED" },
   { cert: "Understanding Threats and Attacks", hash: "sp:uta:7739", status: "VERIFIED" },
   { cert: "Cybersecurity Essentials", hash: "co:ess:8841", status: "VERIFIED" },
@@ -25,7 +25,9 @@ export function RadarScan() {
       const timeString = new Date().toLocaleTimeString();
       let logMessage = "";
 
-      if (currentCert.status === "VERIFIED") {
+      if (currentCert.status === "COMPLETED") {
+        logMessage = `[${timeString}] CERTIFICATION COMPLETE: ${currentCert.cert} -> STATUS: [COMPLETED]`;
+      } else if (currentCert.status === "VERIFIED") {
         logMessage = `[${timeString}] SECURE CHECK: ${currentCert.cert} -> SHA256 MATCH [OK]`;
       } else {
         logMessage = `[${timeString}] CHECKING CERT: ${currentCert.cert} -> ENVELOPE STATUS: IN_PROGRESS`;
