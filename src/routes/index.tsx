@@ -249,7 +249,7 @@ const duties: {
 
 
 const certifications = [
-  { name: "Certified Ethical Hacker (CEH)", issuer: "EC-Council", status: "In Progress" },
+  { name: "Certified Ethical Hacker (CEH)", issuer: "EC-Council", status: "Completed" },
   { name: "Security Operations and Defense Analyst", issuer: "Splunk" },
   { name: "Understanding Threats and Attacks", issuer: "Splunk" },
   { name: "Cybersecurity Essentials", issuer: "Cisco Networking Academy" },
@@ -329,7 +329,7 @@ function Portfolio() {
               />
             </p>
             <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              Enterprise SOC Tier 1 & 2 Security Analyst with 1 year 5 months of hands-on operations experience at TVS Electronics. Specializing in Microsoft Sentinel SIEM detection architecture, KQL threat hunting heuristics, endpoint containment with Bitdefender EDR, and OWASP-aligned vulnerability assessment/penetration testing (VAPT). Splunk certified and actively validating advanced offensive security strategies via the Certified Ethical Hacker (CEH) track.
+              Enterprise SOC Tier 1 & 2 Security Analyst with 1 year 5 months of hands-on operations experience at TVS Electronics. Specializing in Microsoft Sentinel SIEM detection architecture, KQL threat hunting heuristics, endpoint containment with Bitdefender EDR, and OWASP-aligned vulnerability assessment/penetration testing (VAPT). Splunk certified and Certified Ethical Hacker (CEH) certified.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
