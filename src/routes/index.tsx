@@ -250,6 +250,7 @@ const duties: {
 
 const certifications = [
   { name: "Certified Ethical Hacker (CEH)", issuer: "EC-Council", status: "Completed" },
+  { name: "Certified Cybersecurity Educator Professional (CCEP)", issuer: "Red Team Leaders" },
   { name: "Security Operations and Defense Analyst", issuer: "Splunk" },
   { name: "Understanding Threats and Attacks", issuer: "Splunk" },
   { name: "Cybersecurity Essentials", issuer: "Cisco Networking Academy" },
