@@ -334,29 +334,14 @@ function Portfolio() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <button
-                onClick={async () => {
-                  try {
-                    const response = await fetch(resumeAsset.url);
-                    if (!response.ok) throw new Error("Asset not found");
-                    const blob = await response.blob();
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = "John_Jebas_SOC_CEH.pdf";
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(url);
-                  } catch {
-                    window.open(resumeAsset.url, "_blank");
-                  }
-                }}
+              <a
+                href="/John_Jebas_SOC_CEH.pdf"
+                download="John_Jebas_SOC_CEH.pdf"
                 className="glow-ring inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 font-mono text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 cursor-pointer"
               >
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                 Download Résumé
-              </button>
+              </a>
               <a
                 href="mailto:johnjebas02@gmail.com"
                 className="inline-flex items-center rounded-md border border-border bg-card px-5 py-2.5 font-mono text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
