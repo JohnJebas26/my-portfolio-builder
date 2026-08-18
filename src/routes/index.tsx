@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import resumeAsset from "@/assets/John_Jebas_SOC_CEH.pdf.asset.json";
 import { SiteNav } from "@/components/SiteNav";
 import { Reveal } from "@/components/Reveal";
 import { TypedLine } from "@/components/TypedLine";
