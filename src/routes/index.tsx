@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import resumeAsset from "@/assets/resume.pdf.asset.json";
+import resumeAsset from "@/assets/John_Jebas_SOC_CEH.pdf.asset.json";
 import { SiteNav } from "@/components/SiteNav";
 import { Reveal } from "@/components/Reveal";
 import { TypedLine } from "@/components/TypedLine";
@@ -337,13 +337,13 @@ function Portfolio() {
               <button
                 onClick={async () => {
                   try {
-                    const response = await fetch("/John_Jebas_Resume.pdf");
-                    if (!response.ok) throw new Error("Local file not found");
+                    const response = await fetch(resumeAsset.url);
+                    if (!response.ok) throw new Error("Asset not found");
                     const blob = await response.blob();
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement("a");
                     a.href = url;
-                    a.download = "John_Jebas_Resume.pdf";
+                    a.download = "John_Jebas_SOC_CEH.pdf";
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
